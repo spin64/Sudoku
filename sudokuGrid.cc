@@ -78,7 +78,7 @@ void sudokuGrid::setGrid(int x, int y, int n){
 }
 
 void sudokuGrid::removeCell(int x, int y){
-    grid[y][x] = 0;
+    grid[y][x]->setN(0);
 }
 
 void sudokuGrid::printGrid(){
@@ -87,7 +87,7 @@ void sudokuGrid::printGrid(){
     for (int i = 0; i < 9; ++i){
         std::cout << i << " | ";
         for (int j = 0; j < 9; ++j){
-            std::cout << grid[i][j] << " ";
+            std::cout << grid[i][j]->getN() << " ";
             if ((j + 1) % 3 == 0) {
                 std::cout << "| ";
             }

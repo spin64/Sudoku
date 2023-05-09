@@ -5,10 +5,12 @@ game::game(std::default_random_engine rng) : rng{rng} {}
 game::~game(){}
 
 void game::play(){
+    std::cout << std::endl;
     while(!(g.checkWin())){
         g.printGrid();
         char c;
 
+        std::cout << std::endl;
         std::cout << "Would you like to guess (g), remove a number (r), or quit (q): " ;
         std::cin >> c;
 
@@ -19,8 +21,6 @@ void game::play(){
         } else if (c == 'q'){
             return;
         }
-
-        std::cout << std::endl;
     }
 }
 
@@ -29,10 +29,9 @@ void game::guess(){
 
     std::cout << "Guess: " ;
     std::cin >> guess;
-    std::cout << std::endl;
 
     if (guess > 9 || guess < 1){
-        std::cout << "Invalid guess";
+        std::cout << "Invalid guess" << std::endl;
         return;
     }
 
@@ -41,7 +40,7 @@ void game::guess(){
     std::cin >> y;
 
     if (x > 8 || x < 0 || y > 8 || y < 0){
-        std::cout << "Invalid cell";
+        std::cout << "Invalid cell" << std::endl;
         return;
     }
 
@@ -57,7 +56,7 @@ void game::remove(){
     std::cin >> y;
     
     if (x > 8 || x < 0 || y > 8 || y < 0){
-        std::cout << "Invalid cell";
+        std::cout << "Invalid cell" << std::endl;
         return;
     }
 
