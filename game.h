@@ -11,7 +11,7 @@
 
 class game{
     std::default_random_engine rng;
-    sudokuGrid g;
+    sudokuGrid * g;
 public:
     game(std::default_random_engine rng);
     ~game();

@@ -1,24 +1,29 @@
 #include "game.h"
 
-game::game(std::default_random_engine rng) : rng{rng} {}
+game::game(std::default_random_engine rng): rng{rng} {
+    g = new sudokuGrid(rng);
+}
 
 game::~game(){}
 
 void game::play(){
     std::cout << std::endl;
-    while(!(g.checkWin())){
-        g.printGrid();
+    while(!(g->checkWin())){
+        g->printGrid();
         char c;
 
         std::cout << std::endl;
-        std::cout << "Would you like to guess (g), remove a number (r), or quit (q): " ;
+        std::cout << "Would you like to guess (g), remove a number (r), reset board (f), or quit (q): " ;
         std::cin >> c;
 
         if (c == 'g'){
             guess();
         } else if (c == 'r'){
             remove();
-        } else if (c == 'q'){
+        } else if (c == 'f'){
+            g->resetGrid();
+            std::cout << std::endl;
+        }else if (c == 'q'){
             return;
         }
     }
@@ -45,7 +50,7 @@ void game::guess(){
     }
 
     std::cout << std::endl;
-    g.setGrid(x,y,guess);
+    g->setGrid(x,y,guess);
 }
 
 void game::remove(){
@@ -61,5 +66,5 @@ void game::remove(){
     }
 
     std::cout << std::endl;
-    g.removeCell(x,y);
+    g->removeCell(x,y);
 }

@@ -2,19 +2,25 @@
 #define _sudokuGrid_H_
 
 #include <iostream>
+#include <vector>
+#include <algorithm>
+#include <random>
+#include <chrono>
+#include <vector>
+
 #include "cell.h"
 
 class sudokuGrid{
     cell * grid[9][9];
+    std::default_random_engine rng;
 public:
-    sudokuGrid();
+    sudokuGrid(std::default_random_engine rng);
     ~sudokuGrid();
     void initGrid();
-    bool checkRows();
-    bool checkColumns();
-    bool checkSquares();
     bool checkWin();
+    bool validNum(int row, int col, int num);
     void setGrid(int x, int y, int n);
+    void resetGrid();
     void removeCell(int x, int y);
     void printGrid();
 };
