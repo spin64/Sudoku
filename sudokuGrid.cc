@@ -1,13 +1,27 @@
 #include "sudokuGrid.h"
 
-sudokuGrid::sudokuGrid(std::default_random_engine rng): rng{rng}{
-    // inintalizses grid with empty cells
-    for (int i = 0; i < 9; ++i){
-        for (int j = 0; j < 9; ++j){
-            grid[i][j] = new cell(0,'g');
+sudokuGrid::sudokuGrid(std::default_random_engine rng, std::string fileName): rng{rng} {
+    if (fileName == "none"){
+        initGrid();
+    } else {
+        std::ifstream myFile{ fileName };
+        char ch;
+        int n;
+
+        for (int i = 0; i < 9; ++i){
+            for (int j = 0; j < 9; ++j){
+               myFile.get(ch);
+               n = atoi(&ch);
+               myFile.get(ch); //whitespace
+               myFile.get(ch);
+               grid[i][j] = new cell(n,ch);
+               myFile.get(ch);
+            }
         }
+
+        myFile.close();
     }
-    initGrid();
+    
 }
 
 sudokuGrid::~sudokuGrid(){
@@ -19,6 +33,11 @@ sudokuGrid::~sudokuGrid(){
 }
 
 void sudokuGrid::initGrid(){
+    for (int i = 0; i < 9; ++i){
+        for (int j = 0; j < 9; ++j){
+            grid[i][j] = new cell(0,'g');
+        }
+    }
     int remaining = 17;
     std::vector<int> nums = { 1, 2, 3, 4, 5, 6, 7, 8, 9};
     std::vector<int> chance = {1, 2, 3};
@@ -71,6 +90,7 @@ bool sudokuGrid::validNum(int row, int col, int num){
 }
 
 bool sudokuGrid::checkWin(){
+    //check if each grid is a valid numb for win
     for (int i = 0; i < 9; ++i){
         for (int j = 0; j < 9; ++j){
             if(!validNum(i, j, grid[i][j]->getN())){
@@ -120,4 +140,15 @@ void sudokuGrid::printGrid(){
             } 
         std::cout << std::endl;
     }
+}
+
+void sudokuGrid::saveGrid(std::string name){
+    std::ofstream myFile(name);
+    for(int i = 0; i < 9; ++i){
+        for(int j = 0; i < 9; ++j){
+            myFile << grid[i][j]->getN() << " " << grid[i][j]->getType() << std::endl;
+        }
+    }
+
+    myFile.close();
 }

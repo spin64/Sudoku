@@ -1,19 +1,25 @@
 #include "game.h"
 
-game::game(std::default_random_engine rng): rng{rng} {
-    g = new sudokuGrid(rng);
+game::game(std::default_random_engine rng, std::string fileName): rng{rng} {
+    g = new sudokuGrid(rng, fileName);
 }
 
-game::~game(){}
+game::~game(){
+    free(g);
+}
 
 void game::play(){
     std::cout << std::endl;
+
+    // keep looping until puzzle is solved
     while(!(g->checkWin())){
+        // print grid
         g->printGrid();
         char c;
 
+        // take in commands
         std::cout << std::endl;
-        std::cout << "Would you like to guess (g), remove a number (r), reset board (f), or quit (q): " ;
+        std::cout << "Would you like to guess (g), remove a number (r), reset board (f), save (s) or quit (q): " ;
         std::cin >> c;
 
         if (c == 'g'){
@@ -23,10 +29,19 @@ void game::play(){
         } else if (c == 'f'){
             g->resetGrid();
             std::cout << std::endl;
-        }else if (c == 'q'){
+        } else if (c == 'q'){
             return;
+        } else if (c == 's'){
+            std::cout << "enter filename: ";
+            std::string name;
+            std::cin >> name;
+            g->saveGrid(name);
+            std::cout << std::endl;
+        } else{
+            continue;
         }
     }
+    std::cout << "Board Clear" << std::endl;
 }
 
 void game::guess(){
